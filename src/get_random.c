@@ -46,6 +46,4 @@ static PyObject *pytpm2_getrandom(PyObject *self, PyObject *args){
     result = Py_BuildValue("y*", bytes);
     free(bytes);
     return result;
-
-    Py_RETURN_NONE;
 }
