@@ -41,9 +41,14 @@ static PyObject *pytpm2_getrandom(PyObject *self, PyObject *args){
         return NULL;
     }
 
+    char *s = malloc(i+1);
+    snprintf(s, i, "%02X", bytes);
 
     PyObject* result;
-    result = Py_BuildValue("y*", bytes);
+    result = Py_BuildValue("s", s);
+
     free(bytes);
+    free(s);
+
     return result;
 }
