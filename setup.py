@@ -1,7 +1,7 @@
 from setuptools import setup, Extension
 
 module = Extension( "pytpm2",
-                    sources = ['src/get_random.c'],
+                    sources = ['pytpm2/get_random.c'],
                     libraries = ['tss2-esys'],
                     library_dirs=['/usr/local/lib'])
 
