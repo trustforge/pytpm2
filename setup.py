@@ -3,7 +3,7 @@ from setuptools import setup, Extension
 module = Extension( "pytpm2",
                     sources = ['pytpm2/get_random.c'],
                     libraries = ['tss2-esys'],
-                    library_dirs=['/usr/local/lib'])
+                    library_dirs=['/usr/local/lib', '/usr/tmp/tss2-tss/'])
 
 setup(  name = "pytpm2",
         version = '0.0.1',

@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e -x
 
+export PLAT="manylinux2010_x86_64"
 
 function setup_build {
 apt -y update
@@ -25,6 +26,12 @@ sudo apt -y install autoconf-archive \
 	uthash-dev \
 	autoconf \
 	doxygen
+
+
+echo "Installing tools required by auditwheel..."
+sleep 3
+sudo apt -y install patchelf unzip
+sleep 3
 }
 
 
@@ -35,11 +42,13 @@ sleep 5
 pip3 --version
 pip3 install -U pip
 pip --version
+pip install auditwheel
 
 sleep 5
 
 
-tssdir="$(mktemp -d)"
+tssdir="/usr/tmp/tssdir"
+mkdir -p "$tssdir"
 cd "$tssdir"
 git clone https://github.com/tpm2-software/tpm2-tss.git
 cd tpm2-tss
@@ -49,9 +58,11 @@ curl http://reflection.oss.ou.edu/gnu/autoconf-archive/autoconf-archive-2019.01.
 tar -Jxvf autoconf-archive.tar.xz
 cp -ar autoconf-archive-2019.01.06/m4/* ../m4/
 cd ..
+ls -al
 ./bootstrap
 ./configure
 make -j$(nproc)
+make install
 
 # TODO
 # - need to fix up part below here
@@ -69,7 +80,7 @@ for whl in wheelhouse/*.whl; do
 done
 
 # Install packages and test
-for PYBIN in /opt/python/*/bin/; do
-    "${PYBIN}/pip" install pytpm2 --no-index -f /io/wheelhouse
-    (cd "$HOME"; "${PYBIN}/nosetests" pytpm2)
-done
+#for PYBIN in /opt/python/*/bin/; do
+#    "${PYBIN}/pip" install pytpm2 --no-index -f /io/wheelhouse
+#    (cd "$HOME"; "${PYBIN}/nosetests" pytpm2)
+#done

@@ -1,6 +1,6 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include <tss2/tss2_esys.h>
+#include "/usr/tmp/tssdir/tpm2-tss/include/tss2/tss2_esys.h"
 #include "pytpm2_functions.h"
 #include "pytpm2.h"
 
